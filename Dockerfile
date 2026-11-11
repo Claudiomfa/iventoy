@@ -3,11 +3,11 @@ FROM alpine:3.20 AS init
 RUN apk add --no-cache wget tar
 ARG IVENTOY
 WORKDIR /iventoy
-RUN echo ${IVENTOY} && \
-    wget https://github.com/ventoy/PXE/releases/download/v${IVENTOY}/iventoy-${IVENTOY}-linux-x86_64-free.tar.gz && \
-    tar -xvf *.tar.gz && \
-    rm -rf iventoy-${IVENTOY}-linux-x86_64-free.tar.gz && \
-    mv iventoy-${IVENTOY} iventoy
+RUN wget -q https://github.com/ventoy/PXE/releases/download/v${IVENTOY}/iventoy-${IVENTOY}-linux-x86_64-free.tar.gz && \
+    tar -xzf iventoy-${IVENTOY}-linux-x86_64-free.tar.gz && \
+    rm iventoy-${IVENTOY}-linux-x86_64-free.tar.gz && \
+    if [ -d "iventoy-${IVENTOY}" ]; then mv "iventoy-${IVENTOY}" iventoy_dir; else mv iventoy iventoy_dir; fi && \
+    mv iventoy_dir iventoy
 
 # Build image
 FROM ubuntu:22.04
