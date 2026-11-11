@@ -1,5 +1,6 @@
 # Download the latest iventoy version
-FROM ziggyds/alpine-utils:latest AS init
+FROM alpine:3.20 AS init
+RUN apk add --no-cache wget tar
 ARG IVENTOY
 WORKDIR /iventoy
 RUN echo ${IVENTOY} && \
